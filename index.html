@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News Website</title>
+  <style>
+    body {
+      font-family: Oswald, Arial, sans-serif; /* Adding Oswald as primary font */
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #00203FFF;
+      color: #fff;
+      padding: 10px 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 50px 20px 0; /* Added top padding */
+    }
+    .article {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 20px;
+    }
+    .article h2 {
+      margin-top: 0;
+    }
+    .article p {
+      margin-top: 0;
+    }
+    .news-container {
+      position: fixed;
+      top: 99px;
+      left: 0;
+      right: 0;
+      font-family: "Roboto", sans-serif;
+      box-shadow: 0 4px 8px -4px rgba(0, 0, 0, 0.3);
+      padding:0 0 10px;
+    }
+
+    .news-container .title {
+      position: absolute;
+      background: #df2020;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      color: white;
+      font-weight: bold;
+      z-index: 200;
+    }
+
+    .news-container ul {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      animation: scroll 25s infinite linear;
+    }
+
+    .news-container ul li {
+      white-space: nowrap;
+      padding: 10px 24px;
+      color: #494949;
+      position: relative;
+    }
+
+    .news-container ul li::after {
+      content:"";
+      width: 1px;
+      height: 100%;
+      background: #b8b8b8;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    .news-container ul li:last-child::after {
+      display: none;
+    }
+
+    @keyframes scroll {
+      from {
+          transform: translateX(100%);
+      }
+      to {
+          transform: translateX(-1083px);
+      }
+    }
+  </style>
+   <script>
+    // Dummy alerts data (replace with real-time alerts from backend)
+    const alertsData = [
+        { type: "Earthquake", location: "California", severity: "High", message: "Magnitude 7.2 earthquake detected in California. Take cover immediately." },
+        { type: "Flood", location: "Texas", severity: "Moderate", message: "Flash flood warning issued for Texas. Stay indoors and avoid flooded areas." },
+        { type: "Wildfire", location: "Oregon", severity: "Extreme", message: "Wildfire spreading rapidly in Oregon. Evacuate immediately." }
+    ];
+
+    // Function to display alerts
+    function displayAlerts() {
+        const alertsContainer = document.getElementById("alerts");
+        alertsData.forEach(alert => {
+            const alertDiv = document.createElement("div");
+            alertDiv.classList.add("alert");
+            alertDiv.innerHTML = `
+                <h2>${alert.type} Alert</h2>
+                <p><strong>Location:</strong> ${alert.location}</p>
+                <p><strong>Severity:</strong> ${alert.severity}</p>
+                <p>${alert.message}</p>
+            `;
+            alertsContainer.appendChild(alertDiv);
+        });
+    }
+
+    // Display alerts when the page loads
+    window.onload = function() {
+        displayAlerts();
+    };
+</script>
+</head>
+<body>
+  <header>
+    <h1>DisArray</h1>
+  </header>
+  <div class="news-container">
+    <div class="title">
+        Breaking News
+    </div>
+
+    <ul>
+        <li>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam!
+        </li>
+        
+        <li>
+            Lorem ipsum dolor sit
+        </li>
+
+        <li>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam!
+        </li>
+    </ul>
+  </div>
+  <div class="container">
+    <div class="article">
+      <h2>Headline News</h2>
+      <p>This is the main headline news article. It contains the latest and most important news.</p>
+    </div>
+    <div class="article">
+      <h2>Breaking News</h2>
+      <p>This is a breaking news article. It contains urgent and timely news updates.</p>
+    </div>
+    <div class="article">
+      <h2>Feature Story</h2>
+      <p>This is a featured story article. It explores a specific topic in depth.</p>
+    </div>
+  </div>
+</body>
+</html>
