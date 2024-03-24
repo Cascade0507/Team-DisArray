@@ -32,20 +32,23 @@
     <div id="weather-info"></div>
 
     <div id="hourly-forecast"></div>
+
+    <!-- Result section for predictions -->
+    <div id="prediction-result"></div>
   </div>
 
   <div class="container">
     <div class="article">
       <h2>Headline News</h2>
-      <p>This is the main headline news article. It contains the latest and most important news.</p>
+      <p>Masco Corporation Supports American Red Cross Disaster Relief Efforts with $250,000 Donation.</p>
     </div>
     <div class="article">
       <h2>Breaking News</h2>
-      <p>This is a breaking news article. It contains urgent and timely news updates.</p>
+      <p>Sudan one of the 'worst humanitarian disasters in recent memory', UN warns.</p>
     </div>
     <div class="article">
       <h2>Feature Story</h2>
-      <p>This is a featured story article. It explores a specific topic in depth.</p>
+      <p>MIT students develop drone system for disaster & rescue ops.</p>
     </div>
   </div>
 
@@ -67,40 +70,37 @@
       // Call a function to display or utilize the user's location
       // For example, you can use this to automatically fetch weather based on the user's location
       console.log("Latitude: " + lat + " Longitude: " + lon);
+
+      // Fetch predictions using latitude and longitude
+      fetch('/predict', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ latitude: lat, longitude: lon })
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Get the element where prediction results will be displayed
+        var resultDiv = document.getElementById("prediction-result");
+
+        // Clear any existing content
+        resultDiv.innerHTML = '';
+
+        // Create HTML elements to display the prediction results
+        var heading = document.createElement('h2');
+        heading.textContent = 'Predictions:';
+        resultDiv.appendChild(heading);
+
+        var model1Prediction = document.createElement('p');
+        model1Prediction.textContent = 'Earthquake Depth Prediction: ' + data.prediction_model;
+        resultDiv.appendChild(model1Prediction);
+
+        var model2Prediction = document.createElement('p');
+        model2Prediction.textContent = 'Earthquake Magnitude Prediction: ' + data.prediction_model1;
+        resultDiv.appendChild(model2Prediction);
+      })
+      .catch(error => console.error('Error:', error));
     }
-    fetch('/predict', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ latitude: lat, longitude: lon })
-})
-.then(response => console.log(response.json()))
-.then(data => {
-    // Get the element where prediction results will be displayed
-    var resultDiv = document.getElementById("prediction-result");
-
-    // Clear any existing content
-    resultDiv.innerHTML = '';
-
-    // Create HTML elements to display the prediction results
-    var heading = document.createElement('h2');
-    heading.textContent = 'Predictions:';
-    resultDiv.appendChild(heading);
-
-    var model1Prediction = document.createElement('p');
-    model1Prediction.textContent = 'Model 1 Prediction: ' + data.prediction_model;
-    resultDiv.appendChild(model1Prediction);
-
-    var model2Prediction = document.createElement('p');
-    model2Prediction.textContent = 'Model 2 Prediction: ' + data.prediction_model1;
-    resultDiv.appendChild(model2Prediction);
-
-    var model3Prediction = document.createElement('p');
-    model3Prediction.textContent = 'Model 3 Prediction: ' + data.prediction_model2;
-    resultDiv.appendChild(model3Prediction);
-})
-.catch(error => console.error('Error:', error));
-
   </script>
 {% endblock %}
