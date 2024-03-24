@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block body %}
+  <header>
+    <h1>DisArray</h1>
+  </header>
+
+  <div class="news-container">
+    <div class="title">
+      Breaking News
+    </div>
+  
+    <ul>
+      {% for alert in alerts %}
+        <li>{{ alert }}</li>
+      {% endfor %}  
+    </ul>
+  </div>
+
+  <div id="weather-container">
+    <h2>Weather App</h2>
+    <!-- Add a button to fetch the user's location -->
+    <button onclick="getLocation()">Get My Location</button>
+    <!-- Input field for city (optional) -->
+    <input type="text" id="city" placeholder="Enter city">
+    <button onclick="getWeather()">Search</button>
+
+    <img id="weather-icon" alt="Weather Icon">
+
+    <div id="temp-div"></div>
+
+    <div id="weather-info"></div>
+
+    <div id="hourly-forecast"></div>
+  </div>
+
+  <div class="container">
+    <div class="article">
+      <h2>Headline News</h2>
+      <p>This is the main headline news article. It contains the latest and most important news.</p>
+    </div>
+    <div class="article">
+      <h2>Breaking News</h2>
+      <p>This is a breaking news article. It contains urgent and timely news updates.</p>
+    </div>
+    <div class="article">
+      <h2>Feature Story</h2>
+      <p>This is a featured story article. It explores a specific topic in depth.</p>
+    </div>
+  </div>
+
+  <!-- JavaScript for geolocation -->
+  <script>
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
+    function showPosition(position) {
+      // Retrieve latitude and longitude
+      var lat = position.coords.latitude;
+      var lon = position.coords.longitude;
+
+      // Call a function to display or utilize the user's location
+      // For example, you can use this to automatically fetch weather based on the user's location
+      console.log("Latitude: " + lat + " Longitude: " + lon);
+    }
+    fetch('/predict', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ latitude: lat, longitude: lon })
+})
+.then(response => console.log(response.json()))
+.then(data => {
+    // Get the element where prediction results will be displayed
+    var resultDiv = document.getElementById("prediction-result");
+
+    // Clear any existing content
+    resultDiv.innerHTML = '';
+
+    // Create HTML elements to display the prediction results
+    var heading = document.createElement('h2');
+    heading.textContent = 'Predictions:';
+    resultDiv.appendChild(heading);
+
+    var model1Prediction = document.createElement('p');
+    model1Prediction.textContent = 'Model 1 Prediction: ' + data.prediction_model;
+    resultDiv.appendChild(model1Prediction);
+
+    var model2Prediction = document.createElement('p');
+    model2Prediction.textContent = 'Model 2 Prediction: ' + data.prediction_model1;
+    resultDiv.appendChild(model2Prediction);
+
+    var model3Prediction = document.createElement('p');
+    model3Prediction.textContent = 'Model 3 Prediction: ' + data.prediction_model2;
+    resultDiv.appendChild(model3Prediction);
+})
+.catch(error => console.error('Error:', error));
+
+  </script>
+{% endblock %}
